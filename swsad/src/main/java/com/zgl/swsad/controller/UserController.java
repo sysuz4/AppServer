@@ -121,10 +121,10 @@ public class UserController {
         System.out.println(currentUser.getUserId());
         System.out.println(user.getUserId());
 
-        User oldUser = userService.selectUserByname(user.getName());
+        // User oldUser = userService.selectUserByname(user.getName());
 
-        if(oldUser != null)
-            return new ResponseEntity(new ReturnMsg("userName existed"), HttpStatus.CONFLICT);
+        // if(oldUser != null)
+        //     return new ResponseEntity(new ReturnMsg("userName existed"), HttpStatus.CONFLICT);
 
         if(user.getAge() < 0 )
         {
