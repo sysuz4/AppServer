@@ -84,7 +84,7 @@ public class UserController {
         if(oldUser != null)
             return new ResponseEntity(new ReturnMsg("userName existed"), HttpStatus.CONFLICT);
 
-        int opNum = userService.insertUser(user);
+        
 
         if(user.getAge() < 0 )
         {
@@ -94,7 +94,8 @@ public class UserController {
         {
             return new ResponseEntity(new ReturnMsg("grade should be 1-4"), HttpStatus.BAD_REQUEST);
         }
-
+        
+        int opNum = userService.insertUser(user);
         if(opNum != Constants.INSERT_FAIL)
         {
             User currentUser = userService.selectUserByname(user.getName());
