@@ -85,6 +85,16 @@ public class UserController {
             return new ResponseEntity(new ReturnMsg("userName existed"), HttpStatus.CONFLICT);
 
         int opNum = userService.insertUser(user);
+
+        if(user.getAge() < 0 )
+        {
+            return new ResponseEntity(new ReturnMsg("age should be greater than 0"), HttpStatus.BAD_REQUEST);
+        }
+        if(user.getGrade() < 1 || user.getGrade() > 4 )
+        {
+            return new ResponseEntity(new ReturnMsg("grade should be 1-4"), HttpStatus.BAD_REQUEST);
+        }
+
         if(opNum != Constants.INSERT_FAIL)
         {
             User currentUser = userService.selectUserByname(user.getName());
@@ -109,6 +119,21 @@ public class UserController {
     public Object modifyUser (@RequestBody User user, @CurrentUser User currentUser, @RequestParam String oldPassword){
         System.out.println(currentUser.getUserId());
         System.out.println(user.getUserId());
+
+        User oldUser = userService.selectUserByname(user.getName());
+
+        if(oldUser != null)
+            return new ResponseEntity(new ReturnMsg("userName existed"), HttpStatus.CONFLICT);
+
+        if(user.getAge() < 0 )
+        {
+            return new ResponseEntity(new ReturnMsg("age should be greater than 0"), HttpStatus.BAD_REQUEST);
+        }
+        if(user.getGrade() < 1 || user.getGrade() > 4 )
+        {
+            return new ResponseEntity(new ReturnMsg("grade should be 1-4"), HttpStatus.BAD_REQUEST);
+        }
+        
         if(currentUser.getUserId() == user.getUserId() && currentUser.getPassword().equals(oldPassword))
         {
             int opNum = userService.updateUser(user);
